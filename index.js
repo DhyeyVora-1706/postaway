@@ -6,12 +6,14 @@ import { userRouter } from './src/features/user/user.routes.js';
 import { customErrorHandler } from './src/error-handler/customErrorHandler.js';
 import { connecttoMongoDB } from './src/config/mongooseCOnfig.js';
 import { validateToken } from './src/middlewares/jwt.middleware.js';
+import { postRouter } from './src/features/post/post.routes.js';
 
 const server = express();
 
 server.use(bodyParser.json());
 
 server.use('/api/users',userRouter);
+server.use('/api/posts' , postRouter);
 
 //Application Level Error handler
 server.use((err,req,res,next) => {
