@@ -7,6 +7,8 @@ import { customErrorHandler } from './src/error-handler/customErrorHandler.js';
 import { connecttoMongoDB } from './src/config/mongooseCOnfig.js';
 import { validateToken } from './src/middlewares/jwt.middleware.js';
 import { postRouter } from './src/features/post/post.routes.js';
+import { CommentsRouter } from './src/features/comments/comments.routes.js';
+import { likeRouter } from './src/features/like/like.routes.js';
 
 const server = express();
 
@@ -14,6 +16,8 @@ server.use(bodyParser.json());
 
 server.use('/api/users',userRouter);
 server.use('/api/posts' , postRouter);
+server.use('/api/comments', validateToken , CommentsRouter)
+server.use('/api/likes', likeRouter);
 
 //Application Level Error handler
 server.use((err,req,res,next) => {

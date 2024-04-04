@@ -12,7 +12,12 @@ export class UserRepository{
             await newUser.save();
             return { success : true , res : newUser};
         }catch(err){
-            throw new customErrorHandler(err.message,500);
+            
+            if(err instanceof customErrorHandler){
+                throw new customErrorHandler(err.message,err.code);
+            }
+            
+            throw new Error(err.message);
         }
     }
 
@@ -32,7 +37,12 @@ export class UserRepository{
                 }
             }
         }catch(err){
-            throw new customErrorHandler(err.message,500);
+            
+            if(err instanceof customErrorHandler){
+                throw new customErrorHandler(err.message,err.code);
+            }
+            
+            throw new Error(err.message);
         }
     }
 
@@ -47,7 +57,12 @@ export class UserRepository{
                 return;
             }
         }catch(err){
-            throw new customErrorHandler(err.message,500);
+            
+            if(err instanceof customErrorHandler){
+                throw new customErrorHandler(err.message,err.code);
+            }
+            
+            throw new Error(err.message);
         }
     }
 
@@ -60,7 +75,12 @@ export class UserRepository{
                 return user;
             }
         }catch(err){
-            throw new customErrorHandler(err.message,500);
+            
+            if(err instanceof customErrorHandler){
+                throw new customErrorHandler(err.message,err.code);
+            }
+            
+            throw new Error(err.message);
         }
     }
 
@@ -68,7 +88,12 @@ export class UserRepository{
         try{
             return await userModel.find({});
         }catch(err){
-            throw new customErrorHandler(err.message,500);
+            
+            if(err instanceof customErrorHandler){
+                throw new customErrorHandler(err.message,err.code);
+            }
+            
+            throw new Error(err.message);
         }
     }
 
@@ -90,7 +115,12 @@ export class UserRepository{
                 returnDocument : 'after'
             });
         }catch(err){
-            throw new customErrorHandler(err.message,500);
+            
+            if(err instanceof customErrorHandler){
+                throw new customErrorHandler(err.message,err.code);
+            }
+            
+            throw new Error(err.message);
         }
     }
 }

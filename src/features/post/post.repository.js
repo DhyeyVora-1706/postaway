@@ -1,8 +1,10 @@
 import mongoose from "mongoose"
 import { PostSchema } from "./post.schema.js"
 import { customErrorHandler } from "../../error-handler/customErrorHandler.js";
+import { CommentsSchema } from "../comments/comments.schema.js";
 
-const postModel = mongoose.model('Post',PostSchema)
+const postModel = mongoose.model('Post',PostSchema);
+const commentsModel = mongoose.model('Comment',CommentsSchema)
 
 export class PostRepository{
 
@@ -15,19 +17,32 @@ export class PostRepository{
                 res : newPost
             }
         }catch(err){
-            throw new customErrorHandler(err.message,500);
+            
+            if(err instanceof customErrorHandler){
+                throw new customErrorHandler(err.message,err.code);
+            }
+            
+            throw new Error(err.message);
         }
     }
 
     async getOnePost(postId){
         try{
-            const postDetails = await postModel.findById(postId).populate('userId');
+            const postDetails = await postModel.findById(postId).populate({
+                path : 'userId',
+                select : 'name email'
+                });
             if(!postDetails){
                 throw new customErrorHandler("Post Not Found",404);
             }
             return { success:true , postDetails };
         }catch(err){
-            throw new customErrorHandler(err.message,500);
+            
+            if(err instanceof customErrorHandler){
+                throw new customErrorHandler(err.message,err.code);
+            }
+            
+            throw new Error(err.message);
         }
     }
 
@@ -44,7 +59,12 @@ export class PostRepository{
             }
             
         }catch(err){
-            throw new customErrorHandler(err.message,500);
+            
+            if(err instanceof customErrorHandler){
+                throw new customErrorHandler(err.message,err.code);
+            }
+            
+            throw new Error(err.message);
         }
     }
 
@@ -56,7 +76,12 @@ export class PostRepository{
                 res : postsData
             }
         }catch(err){
-            throw new customErrorHandler(err.message,500);
+            
+            if(err instanceof customErrorHandler){
+                throw new customErrorHandler(err.message,err.code);
+            }
+            
+            throw new Error(err.message);
         }
     }
 
@@ -89,25 +114,48 @@ export class PostRepository{
                 throw new customErrorHandler('Post Not Found',400);
             }
         }catch(err){
-            throw new customErrorHandler(err.message,500);
+            
+            if(err instanceof customErrorHandler){
+                throw new customErrorHandler(err.message,err.code);
+            }
+            
+            throw new Error(err.message);
         } 
     }
 
     async deletePost(postId,userId){
+
+        const session = await mongoose.startSession();
+        session.startTransaction();
+
         try{
-            const post = await postModel.findById(postId);
+
+            const post = await postModel.findById(postId).session(session);
             if(!post){
                 throw new customErrorHandler("Post Not Found",404);
             }
 
             if(post.userId == userId){
-                await postModel.findByIdAndDelete(postId);
+                await commentsModel.deleteMany({
+                    postId : postId
+                }).session(session);
+                await postModel.findByIdAndDelete(postId).session(session);
+                await session.commitTransaction();
+                session.endSession();
                 return;
             }else{
                 throw new customErrorHandler("User can only delete the post that they have created",400);
             }
         }catch(err){
-            throw new customErrorHandler(err.message,500);
+           
+            await session.abortTransaction();
+            session.endSession();            
+
+            if(err instanceof customErrorHandler){
+                throw new customErrorHandler(err.message,err.code);
+            }
+            
+            throw new Error(err.message);
         }
     }
 }
