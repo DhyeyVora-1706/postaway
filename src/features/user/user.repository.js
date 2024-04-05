@@ -46,26 +46,6 @@ export class UserRepository{
         }
     }
 
-    async resetPassword(userId,newPassword){
-        try{
-            const user = await userModel.findById(userId);
-            if(!user){
-                throw new customErrorHandler("User Not Found",404);
-            }else{
-                const hashedpassword = await bcrypt.hash(newPassword,12);
-                await userModel.findByIdAndUpdate(userId,{password : hashedpassword});
-                return;
-            }
-        }catch(err){
-            
-            if(err instanceof customErrorHandler){
-                throw new customErrorHandler(err.message,err.code);
-            }
-            
-            throw new Error(err.message);
-        }
-    }
-
     async getDetails(userId){
         try{
             const user = await userModel.findById(userId);

@@ -56,19 +56,6 @@ export class UserController{
         }
     }
 
-    async resetPassword(req,res,next){
-        try{    
-            const {newPassword} = req.body;
-            await this.userRepository.resetPassword(req.userId , newPassword);
-            return res.status(200).json({
-                success : true,
-                message : "Password Updated Successfully"
-            });
-        }catch(err){
-            next(err);
-        }
-    }
-
     async getDetails(req,res,next){
         try{
             const user = await this.userRepository.getDetails(req.params.id);

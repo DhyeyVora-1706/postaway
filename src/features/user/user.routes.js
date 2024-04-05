@@ -13,10 +13,6 @@ userRouter.post("/signin",(req,res,next) => {
     userController.signin(req,res,next);
 })
 
-userRouter.post("/resetPassword", validateToken ,(req,res,next) => {
-    userController.resetPassword(req,res,next);
-})
-
 userRouter.get("/get-details/:id",(req,res,next) => {
     userController.getDetails(req,res,next);
 })
