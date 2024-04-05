@@ -11,6 +11,7 @@ import { CommentsRouter } from './src/features/comments/comments.routes.js';
 import { likeRouter } from './src/features/like/like.routes.js';
 import { OTPRouter } from './src/features/otp/otp.routes.js';
 import session from 'express-session';
+import { friendRouter } from './src/features/friend/friend.routes.js';
 
 const server = express();
 
@@ -26,6 +27,7 @@ server.use('/api/posts' , postRouter);
 server.use('/api/comments', validateToken , CommentsRouter)
 server.use('/api/likes', likeRouter);
 server.use('/api/otp',OTPRouter);
+server.use('/api/friends', validateToken ,friendRouter);
 
 //Application Level Error handler
 server.use((err,req,res,next) => {
