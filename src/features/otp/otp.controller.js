@@ -9,6 +9,7 @@ export class OTPController{
         try{
             const {email} = req.body;
             const response = await this.otpRepository.sendOTP(email);
+            req.session.OTPSent = true;
             if(response.success){
                 return res.status(200).json({
                     success : true,
@@ -24,6 +25,9 @@ export class OTPController{
         try{
             const { email , otp } = req.body;
             const response = await this.otpRepository.verifyOTP(email,otp);
+            if(response.success){
+                req.session.OTPVerified = true;
+            }
             return res.status(200).json({
                 success : response.success,
                 message : response.res

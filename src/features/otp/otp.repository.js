@@ -73,7 +73,8 @@ export class OTPRepository{
                     return{
                         success : true,
                         res : "OTP Verification Successful"
-                    }                }
+                    }                
+                }
             }
         }catch(err){
             if(err instanceof customErrorHandler){

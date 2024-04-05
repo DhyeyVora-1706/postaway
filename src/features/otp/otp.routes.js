@@ -1,5 +1,6 @@
 import express from 'express';
 import { OTPController } from "./otp.controller.js";
+import { checkOTPVerification } from '../../middlewares/resetPasswordCheck.middleware.js';
 
 export const OTPRouter = express.Router();
 
@@ -13,6 +14,6 @@ OTPRouter.post("/verify",(req,res,next) => {
     otpController.verifyOTP(req,res,next);
 })
 
-OTPRouter.post("/reset-password",(req,res,next) => {
+OTPRouter.post("/reset-password", checkOTPVerification , (req,res,next) => {
     otpController.resetPassword(req,res,next);
 })

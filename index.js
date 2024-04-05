@@ -10,10 +10,16 @@ import { postRouter } from './src/features/post/post.routes.js';
 import { CommentsRouter } from './src/features/comments/comments.routes.js';
 import { likeRouter } from './src/features/like/like.routes.js';
 import { OTPRouter } from './src/features/otp/otp.routes.js';
+import session from 'express-session';
 
 const server = express();
 
 server.use(bodyParser.json());
+server.use(session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false
+}));
 
 server.use('/api/users',userRouter);
 server.use('/api/posts' , postRouter);
