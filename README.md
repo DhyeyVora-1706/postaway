@@ -1,5 +1,11 @@
 # PostAway
 
+![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
+![Express.js](https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white)
+![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white)
+![JWT](https://img.shields.io/badge/JWT-FFB400?style=for-the-badge&logo=JSON%20web%20tokens&logoColor=black)
+![Postman](https://img.shields.io/badge/Postman-FF6C37?style=for-the-badge&logo=postman&logoColor=white)
+
 This project implements a comprehensive RESTful API built with Node.js (backend server), ExpressJS (web framework), and MongoDB (NoSQL database). It offers a rich set of functionalities for user management, data interaction, and social networking capabilities (details about functionalities are included in the Core Functionalities section below).
 
 ## Core Functionalities
